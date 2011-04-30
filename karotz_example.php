@@ -1,11 +1,11 @@
-ï»¿<html>
+<html>
 <head><title>Wizz.cc - full Php Class for Karotz API</title></head>
 <body>
 <h3><a href="http://blog.wizz.cc/" target="Wizz.cc">Wizz.cc Karotz Php Class</a></h3>
 <?php
 define('MODE_DEBUG', true);
  
- # On postule que l'interactiveID  est dÃ©jÃ  rÃ©cupÃ©rÃ© et mis en session par exemple
+ # On postule que l'interactiveID  est déjà récupéré et mis en session par exemple
  # Postulate : the interactiveID is already stored in a session
  #
  $interID = $_SESSION['interactiveid']; # or $_GET['interactiveid'];
@@ -21,10 +21,10 @@ define('MODE_DEBUG', true);
  # 3. Send one or more commands...
  #
  echo '[TTS]: <code>'.$_k->say('quoi de neuf docteur', 'fr').'</code><br />';
- echo '[EARS]: <code>'.$_k->ears(100, 240).'</code><br />';
+ echo '[EARS]: <code>'.$_k->ears(2, 5).'</code><br />';
  # echo '[LED]: <code>'.$_k->led_light('FF0000', 3000).'</code><br />';
  # echo '[RADIO]: <code>'.$_k->play('http://zenradio.fr:8800/').'</code><br />';
- # echo '[WEBCAM]: <code>'.$_k->photo('http://wizz.cc/karotz/_wrap_photo.php').'</code><br />';
+ # echo '[WEBCAM]: <code>'.$_k->photo('http://your_script.php').'</code><br />';
  # echo '[CONFIG]: <code>'; print_r($_k->config()); echo '</code><br />';
 
  # Radio pause/resume/stop

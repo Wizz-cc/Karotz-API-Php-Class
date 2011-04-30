@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 #
 # Php Class for the Karotz Rabbit by Wizz.cc
 #
@@ -7,6 +7,10 @@
 #
 # Free distribution
 # Release 1.0b : 2011-04-10
+#   2011-04-26
+#	- adding ears_reset()
+#	- adding $relative to ears()
+#	- adding previous & next to play()
 #
 # Please post comments to:
 #  Karotz Developper group
@@ -107,7 +111,7 @@ class wizz_karotz {
 
 	private function build_rest_url() {
 		$url  = self::API_KZ_BASE.$this->rest_method.'?';
-		foreach ($this->api_params as $key => $value) $url .= ($key)?urlencode($key).'='.urlencode($value).'&':'';
+		if (count($this->api_params)) foreach ($this->api_params as $key => $value) $url .= ($key)?urlencode($key).'='.urlencode($value).'&':'';
 		$url .= 'interactiveid='.$this->liveid;
 		$this->url_encoded = $url;
         if ($this->debug) $this->api_debug .= '<br />urlencode>&nbsp;'.$url;
@@ -187,12 +191,19 @@ class wizz_karotz {
 	}
 
 	# EARS
-	public function ears($left=null, $right=null) {
+	public function ears($left=null, $right=null, $relative=null) {
 		$this->rest_method = self::API_FCT_EARS;
 		unset($this->api_params);
 		$left	= (int) $left; $right = (int) $right;
 		if ($left) $this->api_params['left'] = $left;
 		if ($right)	$this->api_params['right'] = $right;
+		if ($relative) $this->api_params['relative'] = true;
+		return $this->call_api();
+	}
+	public function ears_reset() {
+		$this->rest_method = self::API_FCT_EARS;
+		unset($this->api_params);
+		$this->api_params['reset'] = true;
 		return $this->call_api();
 	}
 
@@ -203,7 +214,7 @@ class wizz_karotz {
 		$this->api_params['action'] = 'pulse';
 		$this->api_params['color']  = $color;
 		$this->api_params['period'] = $period;
-		$this->api_params['pulse']  = $pusle;
+		$this->api_params['pulse']  = $pulse;
 		return $this->call_api();
 	}
 	public function led_fade($color='FFFFFF', $period=3000) {
@@ -239,7 +250,9 @@ class wizz_karotz {
 		if((strtoupper($url)=='STOP') || ($url=='') || ($url==null)) $this->api_params['action'] = 'stop';
 		 elseif(strtoupper($url)=='PAUSE') $this->api_params['action'] = 'pause';
 		  elseif(strtoupper($url)=='RESUME') $this->api_params['action'] = 'resume';
-		   else { $this->api_params['action'] = 'play'; $this->api_params['url'] = $url; }
+		   elseif(strtoupper($url)=='PREVIOUS') $this->api_params['action'] = 'previous';
+		    elseif(strtoupper($url)=='NEXT') $this->api_params['action'] = 'next';
+		     else { $this->api_params['action'] = 'play'; $this->api_params['url'] = $url; }
 		return $this->call_api();
 	}
 
